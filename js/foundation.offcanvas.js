@@ -132,7 +132,7 @@ class OffCanvas {
     } else {
       this.isRevealed = false;
       this.$element.attr('aria-hidden', 'true');
-      this.$element.on({
+      this.$element.off('open.zf.trigger toggle.zf.trigger').on({
         'open.zf.trigger': this.open.bind(this),
         'toggle.zf.trigger': this.toggle.bind(this)
       });
@@ -232,7 +232,12 @@ class OffCanvas {
 
     if (this.options.autoFocus === true) {
       this.$element.one(Foundation.transitionend(this.$element), function() {
-        _this.$element.find('a, button').eq(0).focus();
+        var canvasFocus = _this.$element.find('[data-autofocus]');
+        if (canvasFocus.length) {
+            canvasFocus.eq(0).focus();
+        } else {
+            _this.$element.find('a, button').eq(0).focus();
+        }
       });
     }
 
